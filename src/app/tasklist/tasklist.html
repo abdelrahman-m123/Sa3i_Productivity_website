@@ -14,9 +14,12 @@
     <div class="task-info">
       <h3>
         {{ task.title }}
-        <span class="status">
-          {{ task.completed ? '(Completed)' : '(Pending)' }}
-        </span>
+        <mat-checkbox
+        [checked]="task.completed"
+        (change)="checkTask($event.checked, task._id, i)"
+        >
+          
+        </mat-checkbox>
       </h3>
       <p class="description">{{ task.description }}</p>
 

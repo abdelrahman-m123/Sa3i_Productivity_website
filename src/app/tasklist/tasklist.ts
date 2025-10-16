@@ -9,9 +9,11 @@ import { UpdateTask } from '../update-task/update-task';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @Component({
   selector: 'app-tasklist',
-  imports: [CommonModule, AddTask, UpdateTask, MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, AddTask, UpdateTask, MatDialogModule, MatButtonModule, MatIconModule, MatCheckboxModule],
   standalone: true,
   templateUrl: './tasklist.html',
   styleUrl: './tasklist.css',
@@ -86,6 +88,16 @@ export class Tasklist {
 
       }
     });
+  }
+
+  checkTask(completed: boolean, id: string, index: number){
+    this.myService.updateTask(id,{completed: completed}).subscribe({
+      next: (data) => {
+        console.log(data);
+        console.log(localStorage.getItem("editId"));
+        
+      },});
+      
   }
 
   deleteTask(id: string, index: number) {
