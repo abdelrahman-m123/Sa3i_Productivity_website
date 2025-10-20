@@ -3,7 +3,7 @@
   display: flex;
   align-items: center; /* vertically center */
   justify-content: space-between; /* pushes button to the right */
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 .title {
   display: flex;
@@ -11,12 +11,15 @@
   align-items: center; /* align vertically */
   gap: 1rem; /* space between h2 and button */
   margin: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   color: #333;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 0.5rem;
-  font-family: Arial, sans-serif;
+  padding-top: 0.25rem;
+  font-family: 'Instrument Sans', sans-serif;
   max-width: 250px;
 }
 .title button {
@@ -44,11 +47,11 @@
   max-width: 450px;
   min-width: 250px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
+  font-family: 'Instrument Sans', sans-serif;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -110,4 +113,8 @@
   margin-top: 1rem;
   display: flex;
   gap: 10px;
+}
+
+.btn-group button {
+  height: 2rem;
 }

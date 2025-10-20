@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Add Task</h2>
 
 <mat-dialog-content>
-  <form aria-label="Task form" [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" class="container">
+  <form aria-label="Task form" [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" class="container" (keydown.enter)="onSubmit()">
     <!-- Title -->
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>

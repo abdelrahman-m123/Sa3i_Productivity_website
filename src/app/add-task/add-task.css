@@ -5,7 +5,7 @@
   gap: 1rem;
   padding: 0.5rem 0;
   width: 100%;
-  font-family: Roboto, Arial, sans-serif;
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 /* Dialog title (Add Task) */
@@ -50,7 +50,7 @@ textarea {
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  font-family: inherit;
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 /* Focused input state */
