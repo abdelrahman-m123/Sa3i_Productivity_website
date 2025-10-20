@@ -7,10 +7,11 @@ import { Tasklist } from './tasklist/tasklist';
 import { Header } from './header/header';
 import { Footer } from './footer/footer';
 import { UpdateTask } from './update-task/update-task';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Login, Signup, AddTask, Tasklist, Header,RouterOutlet, Footer, UpdateTask],
+  imports: [Login, Signup, AddTask, Tasklist, Header,RouterOutlet, Footer, UpdateTask, RouterModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -3,6 +3,7 @@
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 0.8rem 1.5rem;
+  padding-bottom: 0%;
   font-family: Arial, sans-serif;
   position: sticky;
   top: 0;
@@ -22,13 +23,11 @@
 .brand a {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #005cbb;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .brand a:hover {
-  color: #0056b3;
 }
 
 /* Navigation */
@@ -45,13 +44,9 @@
   transition: color 0.2s ease;
 }
 
-.nav a:hover {
-  color: #005cbb;
-}
+
 
 .nav a.active {
   font-weight: 600;
-  color: #005cbb;
-  border-bottom: 2px solid #005cbb;
   padding-bottom: 0.2rem;
 }

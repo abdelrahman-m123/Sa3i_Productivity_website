@@ -1,21 +1,22 @@
-
 <header class="site-header">
   <div class="container header-row">
     <div class="brand">
-      <a>Sa3i Productivity</a>
+      <a class="brand-name">Sa3i Productivity</a>
     </div>
 
-    <nav class="nav">
-      <a routerLink="/signup" >SignUp</a>
-       <a routerLink="/login" >Login</a>
-       <a routerLink="/tasks" >Tasks</a>
-       <a routerLink="/profile" >Profile</a>
-      <!-- <a routerLink="/about" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">About</a>
-      <a routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact</a>
-      <a routerLink="/movies" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Movies</a>
-
-      <a routerLink="/signin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sign In</a>
-      <a routerLink="/signup" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sign Up</a> -->
+    <!-- Angular Material Tab Nav Bar -->
+    <nav mat-tab-nav-bar>
+      @for (link of links; track link) {
+        <a
+          mat-tab-link
+          [routerLink]="link.path"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          {{ link.label }}
+        </a>
+      }
     </nav>
   </div>
 </header>
