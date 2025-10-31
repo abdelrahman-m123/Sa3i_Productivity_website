@@ -14,7 +14,7 @@ export class Login {
   serverError = "";
 
   private authService = inject(AuthService);
-  private router = inject(Router)
+  private router = inject(Router);
   @ViewChild("loginForm") loginForm!: NgForm;
 
   onSubmit() {

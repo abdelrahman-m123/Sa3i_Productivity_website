@@ -32,3 +32,13 @@
   color: #555;
   text-align: center;
 }
+
+.btn-group {
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+button {
+  width: 80%;
+}

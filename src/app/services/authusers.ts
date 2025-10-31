@@ -10,6 +10,8 @@ import { jwtDecode } from "jwt-decode";
 export class AuthService {
   private http = inject(HttpClient);
   private URL = "http://localhost:3000";
+  private loggedIn = new BehaviorSubject<boolean>(false); // initial state
+  isLoggedIn$ = this.loggedIn.asObservable(); // observable for components
 
   user = new BehaviorSubject<any>(null);
 
@@ -21,6 +23,7 @@ export class AuthService {
           const expirationDate = new Date(decoded.exp * 1000);
 
           const loggedInUser = {
+            loggedIn: true,
             email:response.data.user.email,
             id: decoded.id,
             _token: response.token,
@@ -28,8 +31,8 @@ export class AuthService {
             photo: response.data.user.photo,
             name: response.data.user.name
           };
-          this.user.next(loggedInUser);
           localStorage.setItem("userData", JSON.stringify(loggedInUser));
+          this.user.next(loggedInUser);
           console.log(localStorage.getItem("userData"));
           
           return response.data.user;

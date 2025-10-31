@@ -5,7 +5,7 @@
     </div>
 
     <!-- Angular Material Tab Nav Bar -->
-    <nav mat-tab-nav-bar>
+    <!-- <nav mat-tab-nav-bar>
       @for (link of links; track link) {
         <a
           mat-tab-link
@@ -17,6 +17,26 @@
           {{ link.label }}
         </a>
       }
-    </nav>
+    </nav> -->
+      <div class="profile">
+   @if (isLoggedIn) {
+        
+        <a
+        [routerLink]='profile'
+        >
+          <img
+        [src]="'http://localhost:3000/uploads/' + photo"
+        alt="{{ name }}"
+        class="profile-photo"
+        />
+        </a>
+   
+    } @else {
+        <button mat-flat-button [routerLink]='login' >Login</button>
+        <button mat-button [routerLink]='signUp' >Sign up</button>
+    }
+  </div>
+    
+    
   </div>
 </header>
