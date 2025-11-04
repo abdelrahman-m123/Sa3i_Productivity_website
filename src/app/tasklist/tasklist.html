@@ -1,10 +1,12 @@
-
-<div class="title">
-<h2>Task List</h2>
+<div class="title-wrap">
+  <div class="title">
+<h2>Add Task</h2>
 <div class="title-button">
 <button matIconButton class="add-btn" (click)="toggleAddTask()"> <mat-icon>add</mat-icon> </button>
 </div>
 </div>
+</div>
+
 
 
 
@@ -13,27 +15,30 @@
   <div class="task-card">
     <div class="task-info">
       <h3>
-        {{ task.title }}
+        
         <mat-checkbox
         [checked]="task.completed"
         (change)="checkTask($event.checked, task._id, i)"
         >
           
         </mat-checkbox>
+        {{ task.title }}
       </h3>
-      <p class="description">{{ task.description }}</p>
-
-      <p>
-        <strong>Priority:</strong> <span>{{ task.priority }}</span>
+      <p class="chips">
+        <mat-chip color="accent">{{ task.priority }}</mat-chip>
+        <mat-chip> {{ task.category }}</mat-chip>
       </p>
-      <p><strong>Category:</strong> {{ task.category }}</p>
+      
 
-      <div class="btn-group">
-        <button mat-flat-button class="update-btn" (click)="updateTask(task._id, i)">Edit</button>
-
-        <button mat-flat-button class="delete-btn" (click)="deleteTask(task._id, i)">Delete</button>
-      </div>
+      
     </div>
+
+    <div class="btn-group">
+      <button mat-icon-button class="update-btn" (click)="updateTask(task._id, i)"><mat-icon>edit</mat-icon></button>
+
+      <button mat-icon-button class="delete-btn" (click)="deleteTask(task._id, i)"><mat-icon>delete</mat-icon></button>
+    </div>
+
   </div>
   }
 </div>

@@ -14,6 +14,8 @@
   align-items: flex-start; /* top align your routed components */
   padding: 2rem;
   overflow-y: auto;
+  background: linear-gradient(135deg, #ffffff, #d7e3ff);
+
 }
 
 /* Optional styling for your card-like components */

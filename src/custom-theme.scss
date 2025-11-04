@@ -33,3 +33,8 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
+:root {
+  @include mat.chips-overrides((
+    label-text-size: 14px,
+  ));
+}

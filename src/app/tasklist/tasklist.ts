@@ -10,10 +10,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatChipsModule} from '@angular/material/chips';
 @Component({
   selector: 'app-tasklist',
-  imports: [CommonModule, AddTask, UpdateTask, MatDialogModule, MatButtonModule, MatIconModule, MatCheckboxModule],
+  imports: [CommonModule, AddTask, UpdateTask, MatDialogModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatChipsModule],
   standalone: true,
   templateUrl: './tasklist.html',
   styleUrl: './tasklist.css',

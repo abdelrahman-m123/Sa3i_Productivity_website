@@ -7,16 +7,16 @@
 }
 .title {
   display: flex;
-  justify-content: center; /* center horizontally */
+  justify-content: space-between;
   align-items: center; /* align vertically */
   gap: 1rem; /* space between h2 and button */
-  margin: 2rem;
   margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-left: 16px;
+  margin-right: 2rem;
   color: #333;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0.5rem;
   padding-top: 0.25rem;
   font-family: 'Instrument Sans', sans-serif;
@@ -29,26 +29,36 @@
 .title-button {
   padding-left: 5rem;
 }
-
+.chips {
+  display: flex;
+  gap: 5px;
+}
 .title h2 {
   margin: 0; /* remove default margin for cleaner alignment */
 }
-
+.title-wrap {
+  justify-content: center;
+  width: 100%;
+}
 /* Grid layout for tasks */
 .task-grid {
   display: flex;
   flex-direction: column; /* stack vertically */
-  gap: 15px; /* space between items */
+  gap: 12px; /* space between items */
   padding: 1rem;
+  
 }
 
 /* Task card */
 .task-card {
-  max-width: 450px;
-  min-width: 250px;
+  min-width: 500px;
   margin: 0 auto;
-  padding: 1rem;
-  border-radius: 12px;
+  padding: 10px;
+  padding-left:12px;
+  flex-direction: row;
+  display:flex;
+  justify-content: space-between;
+  border-radius: 10px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Instrument Sans', sans-serif;
@@ -61,6 +71,10 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+.task-card:hover .btn-group {
+  opacity: 1;
+}
+
 /* Task info */
 .task-info h3 {
   margin: 0;
@@ -68,7 +82,10 @@
   color: #333;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+mat-checkbox {
+  margin-left: -10px;
 }
 
 .task-info .status {
@@ -110,11 +127,20 @@
 }
 /* Group action buttons */
 .btn-group {
-  margin-top: 1rem;
   display: flex;
   gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .btn-group button {
-  height: 2rem;
+}
+
+mat-chip {
+  max-height: 24px;
+  color: red;
+}
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  background-color: #fdfeff;
+  color: red
 }
