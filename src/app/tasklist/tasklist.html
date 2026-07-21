@@ -1,44 +1,54 @@
-<div class="title-wrap">
-  <div class="title">
-<h2>Add Task</h2>
-<div class="title-button">
-<button matIconButton class="add-btn" (click)="toggleAddTask()"> <mat-icon>add</mat-icon> </button>
-</div>
-</div>
-</div>
+<div class="task-container">
+  <div class="page-wrapper">
+    
+    <!-- Add Task Section -->
+    <div class="title-wrap">
+      <div class="title">
+        <h2>Tasklist</h2>
+        <button mat-icon-button class="add-btn" (click)="toggleAddTask()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
 
-
-
-
-<div class="task-grid">
-  @for (task of tasks; track task._id; let i = $index) {
-  <div class="task-card">
-    <div class="task-info">
-      <h3>
-        
-        <mat-checkbox
-        [checked]="task.completed"
-        (change)="checkTask($event.checked, task._id, i)"
-        >
+    <!-- Task Grid -->
+    <div class="task-grid">
+      @for (task of tasks; track task._id; let i = $index) {
+        <div class="task-card" [class.completed]="task.completed">
           
-        </mat-checkbox>
-        {{ task.title }}
-      </h3>
-      <p class="chips">
-        <mat-chip color="accent">{{ task.priority }}</mat-chip>
-        <mat-chip> {{ task.category }}</mat-chip>
-      </p>
-      
+          <!-- Task Info -->
+          <div class="task-info">
+            <h3>
+              <mat-checkbox
+                [checked]="task.completed"
+                (change)="checkTask($event.checked, task._id, i)"
+              ></mat-checkbox>
+              {{ task.title }}
+            </h3>
+            
+            <div class="chips">
+              <mat-chip [class]="'priority-' + task.priority">
+                {{ task.priority }}
+              </mat-chip>
+              <mat-chip class="category">
+                {{ task.category }}
+              </mat-chip>
+            </div>
+          </div>
 
-      
+          <!-- Action Buttons -->
+          <div class="btn-group">
+            <button mat-icon-button class="update-btn" (click)="updateTask(task._id, i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-btn" (click)="deleteTask(task._id, i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          
+        </div>
+      }
     </div>
-
-    <div class="btn-group">
-      <button mat-icon-button class="update-btn" (click)="updateTask(task._id, i)"><mat-icon>edit</mat-icon></button>
-
-      <button mat-icon-button class="delete-btn" (click)="deleteTask(task._id, i)"><mat-icon>delete</mat-icon></button>
-    </div>
-
+    
   </div>
-  }
 </div>

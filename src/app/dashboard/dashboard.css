@@ -1,0 +1,174 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.dashboard-page {
+  width: 100%;
+  font-family: 'Instrument Sans', sans-serif;
+  color: #1f2937;
+}
+
+.dashboard-header,
+.today-panel,
+.stat {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.2rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dashboard-header h2,
+.panel-title h3,
+.dashboard-task h3,
+.empty-state h3 {
+  margin: 0;
+}
+
+.dashboard-header h2 {
+  font-size: 1.6rem;
+  font-weight: 650;
+}
+
+.effort-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.effort-control button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.effort-control button.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.stat {
+  padding: 1rem;
+}
+
+.stat span {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 750;
+}
+
+.stat p,
+.panel-title p,
+.dashboard-task p {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+}
+
+.today-panel {
+  padding: 1rem;
+}
+
+.panel-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.task-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.dashboard-task {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.8rem;
+  background: #f9fbff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.task-body {
+  min-width: 0;
+}
+
+.dashboard-task h3 {
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+}
+
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+mat-chip {
+  max-height: 24px;
+}
+
+.priority-high {
+  background: #fee2e2 !important;
+}
+
+.priority-medium {
+  background: #fef3c7 !important;
+}
+
+.priority-low {
+  background: #dcfce7 !important;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 2.5rem 1rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 760px) {
+  .dashboard-header,
+  .panel-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+}

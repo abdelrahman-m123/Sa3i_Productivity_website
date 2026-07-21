@@ -3,12 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Task } from '../models/task';
 import { TaskService } from '../services/usertasks';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { Inject, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-add-task',
@@ -21,7 +22,10 @@ export class AddTask {
   newTask!: Task;
   myService = inject(TaskService);
 
-  constructor(private dialogRef: MatDialogRef<AddTask>) {}
+  constructor(
+    private dialogRef: MatDialogRef<AddTask>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private data: { dueDate?: string } | null
+  ) {}
 
   ngOnInit() {
     this.addTaskForm = new FormGroup({
@@ -31,7 +35,7 @@ export class AddTask {
         Validators.maxLength(100),
       ]),
       description: new FormControl(null),
-      dueDate: new FormControl(null),
+      dueDate: new FormControl(this.data?.dueDate ?? null),
       completed: new FormControl(null),
       priority: new FormControl(null),
       category: new FormControl(null),
@@ -50,7 +54,7 @@ export class AddTask {
       const rawTask = this.addTaskForm.value;
 
       this.newTask = Object.fromEntries(
-        Object.entries(rawTask).filter(([_, v]) => v != null)
+        Object.entries(rawTask).filter(([_, v]) => v != null && v !== '')
       ) as unknown as Task;
 
       this.myService.addTask(this.newTask).subscribe({

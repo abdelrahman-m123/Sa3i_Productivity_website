@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { catchError, map, BehaviorSubject, throwError } from "rxjs";
-import { UserModel } from "../models/user";
 import { jwtDecode } from "jwt-decode";
 
 @Injectable({
@@ -9,11 +9,16 @@ import { jwtDecode } from "jwt-decode";
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
   private URL = "http://localhost:3000";
-  private loggedIn = new BehaviorSubject<boolean>(false); // initial state
+  private loggedIn = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.loggedIn.asObservable(); // observable for components
 
   user = new BehaviorSubject<any>(null);
+
+  constructor() {
+    this.restoreUser();
+  }
 
   login(email: string, password: string) {
     return this.http.post<any>(`${this.URL}/users/login`, { email, password }).pipe(
@@ -31,9 +36,7 @@ export class AuthService {
             photo: response.data.user.photo,
             name: response.data.user.name
           };
-          localStorage.setItem("userData", JSON.stringify(loggedInUser));
-          this.user.next(loggedInUser);
-          console.log(localStorage.getItem("userData"));
+          this.setSession(loggedInUser);
           
           return response.data.user;
         } else {
@@ -44,28 +47,64 @@ export class AuthService {
     );
   }
 
-// Called from AppComponent ngOnInit to restore logged-in user from localStorage on app start
-  autoLogin() { 
-    const userDataString = localStorage.getItem("userData");
-    if (!userDataString) return;
+  autoLogin() {
+    this.restoreUser();
+  }
 
-    const userData = JSON.parse(userDataString);
-    const loadedUser = new UserModel(
-      userData.email,
-      userData.id,
-      userData._token,
-      new Date(userData._expiresIn)
+  getProfile() {
+    return this.http.get<any>(`${this.URL}/users/profile`, { headers: this.getAuthHeaders() }).pipe(
+      map((response) => {
+        const currentUser = this.user.value;
+        const updatedUser = {
+          ...currentUser,
+          ...response.data.user,
+          id: response.data.user._id || currentUser?.id,
+          _token: currentUser?._token,
+          expirationDate: currentUser?.expirationDate,
+          loggedIn: true,
+        };
+
+        if (currentUser?._token) {
+          this.setSession(updatedUser);
+        }
+
+        return response.data.user;
+      }),
+      catchError(this.handleError)
     );
+  }
 
-    if (loadedUser.token) {
-      this.user.next(loadedUser);
-    }
+  updateProfile(profileData: FormData) {
+    return this.http.patch<any>(`${this.URL}/users/profile`, profileData, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      map((response) => {
+        const currentUser = this.user.value;
+        const updatedUser = {
+          ...currentUser,
+          ...response.data.user,
+          id: response.data.user._id || currentUser?.id,
+          _token: currentUser?._token,
+          expirationDate: currentUser?.expirationDate,
+          loggedIn: true,
+        };
+
+        this.setSession(updatedUser);
+
+        return response.data.user;
+      }),
+      catchError(this.handleError)
+    );
   }
 
 // Called in any component
   logout() {
     this.user.next(null);
-    localStorage.removeItem("userData");
+    this.loggedIn.next(false);
+
+    if (this.isBrowser()) {
+      localStorage.removeItem("userData");
+    }
   }
 
   private handleError(error: any) {
@@ -91,6 +130,7 @@ export class AuthService {
         const decoded = jwtDecode<any>(response.token);
         const expirationDate = new Date(decoded.exp * 1000);
         const loggedInUser = {
+            loggedIn: true,
             email:response.data.user.email,
             id: decoded.id,
             _token: response.token,
@@ -98,8 +138,7 @@ export class AuthService {
             photo: response.data.user.photo,
             name: response.data.user.name
           };
-        this.user.next(loggedInUser);
-        localStorage.setItem("userData", JSON.stringify(loggedInUser));
+        this.setSession(loggedInUser);
 
         return response.data.user;
       } else {
@@ -109,4 +148,52 @@ export class AuthService {
     catchError(this.handleError)
   );
 }
+
+  private setSession(user: any) {
+    this.user.next(user);
+    this.loggedIn.next(true);
+
+    if (this.isBrowser()) {
+      localStorage.setItem("userData", JSON.stringify(user));
+    }
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: this.user.value?._token ? `Bearer ${this.user.value._token}` : '',
+    });
+  }
+
+  private restoreUser() {
+    if (!this.isBrowser()) {
+      return;
+    }
+
+    const userDataString = localStorage.getItem("userData");
+
+    if (!userDataString) {
+      this.user.next(null);
+      this.loggedIn.next(false);
+      return;
+    }
+
+    try {
+      const userData = JSON.parse(userDataString);
+      const expirationDate = new Date(userData.expirationDate);
+
+      if (!userData._token || Number.isNaN(expirationDate.getTime()) || expirationDate <= new Date()) {
+        this.logout();
+        return;
+      }
+
+      this.user.next({ ...userData, loggedIn: true, expirationDate });
+      this.loggedIn.next(true);
+    } catch {
+      this.logout();
+    }
+  }
+
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 }

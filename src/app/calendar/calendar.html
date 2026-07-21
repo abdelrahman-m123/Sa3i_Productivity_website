@@ -1,0 +1,82 @@
+<div class="calendar-page">
+  <div class="calendar-toolbar">
+    <div>
+      <p class="eyebrow">Calendar</p>
+      <h2>{{ monthTitle }}</h2>
+    </div>
+
+    <div class="toolbar-actions">
+      <button mat-icon-button aria-label="Previous month" (click)="previousMonth()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-stroked-button (click)="goToToday()">Today</button>
+      <button mat-icon-button aria-label="Next month" (click)="nextMonth()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="week-header">
+    @for (day of weekDays; track day) {
+      <div>{{ day }}</div>
+    }
+  </div>
+
+  <div class="calendar-grid">
+    @for (day of calendarDays; track day.isoDate) {
+      <section class="day-cell" [class.muted]="!day.isCurrentMonth" [class.today]="day.isToday">
+        <div class="day-head">
+          <span>{{ day.label }}</span>
+          <button mat-icon-button aria-label="Add task" (click)="addTaskToDay(day.isoDate)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <div
+          class="day-tasks"
+          cdkDropList
+          [id]="getDropListId(day.isoDate)"
+          [cdkDropListData]="day.tasks"
+          [cdkDropListConnectedTo]="dropListIds"
+          (cdkDropListDropped)="dropTaskOnDay($event, day.isoDate)"
+        >
+          @for (task of day.tasks; track task._id) {
+            <article
+              class="calendar-task"
+              cdkDrag
+              [cdkDragData]="task"
+              [class.completed]="task.completed"
+            >
+              <mat-checkbox
+                [checked]="task.completed"
+                (change)="checkTask($event.checked, task)"
+              ></mat-checkbox>
+              <div>
+                <h3>{{ task.title }}</h3>
+                <div class="task-meta">
+                  @if (task.priority) {
+                    <mat-chip [class]="'priority-' + task.priority">{{ task.priority }}</mat-chip>
+                  }
+                  @if (task.category) {
+                    <mat-chip>{{ task.category }}</mat-chip>
+                  }
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  @if (unscheduledTasks.length) {
+    <section class="unscheduled">
+      <h3>Unscheduled tasks</h3>
+      <div class="unscheduled-list">
+        @for (task of unscheduledTasks; track task._id) {
+          <span>{{ task.title }}</span>
+        }
+      </div>
+    </section>
+  }
+</div>

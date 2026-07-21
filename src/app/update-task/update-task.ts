@@ -51,7 +51,7 @@ export class UpdateTask {
 
   
       this.newTask = Object.fromEntries(
-        Object.entries(rawTask).filter(([_, v]) => v != null)
+        Object.entries(rawTask).filter(([_, v]) => v != null && v !== '')
       ) as unknown as Task;
 
       this.myService.updateTask(localStorage.getItem("editId"),this.newTask).subscribe({

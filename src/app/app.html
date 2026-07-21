@@ -1,7 +1,12 @@
 <div class="page-container">
-  <app-header></app-header>
-  <div class="content-wrap">
-    <router-outlet></router-outlet>
+  <app-header ></app-header>
+
+  <div class="layout-body">
+    <app-sidebar *ngIf="!isAuthRoute()"></app-sidebar>
+    
+    <div class="content-wrap" [class.full-width]="isAuthRoute()">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 
   <!-- <app-footer></app-footer> -->

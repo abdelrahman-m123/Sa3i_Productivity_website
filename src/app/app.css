@@ -6,29 +6,39 @@
   background: #f4f6f8;
 }
 
-/* Expands to fill available space (so footer stays at bottom) */
+app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* ===== LAYOUT BODY (sidebar + content) ===== */
+.layout-body {
+  display: flex;
+  justify-self: stretch;
+  flex: 1;
+  min-height: calc(100vh - 4rem);
+}
+
+/* ===== MAIN CONTENT WRAPPER ===== */
 .content-wrap {
+  min-width: 0;
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* top align your routed components */
+  align-items: flex-start; 
   padding: 2rem;
   overflow-y: auto;
-  background: linear-gradient(135deg, #ffffff, #d7e3ff);
-
 }
 
-/* Optional styling for your card-like components */
-.component-card {
-  width: 100%;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Instrument Sans', sans-serif;
+/* Full width for auth pages */
+.content-wrap.full-width {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Footer stays at the bottom of the page naturally (no fixed positioning) */
+/* Footer stays at the bottom */
 app-footer {
   width: 100%;
   text-align: center;

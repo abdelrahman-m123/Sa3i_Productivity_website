@@ -2,6 +2,7 @@
 .card {
   max-width: 450px;
   margin: 60px auto;
+  margin-bottom: 200px;
   padding: 2rem;
   border-radius: 12px;
   background: #ffffff;

@@ -1,28 +1,94 @@
-<!-- <h2 class="title">{{}}</h2> -->
-<!-- <button class="add-btn" (click)="addTask()">Add Task</button> -->
-
-
-<!-- Show AddTask component only when button is pressed -->
-
-<!-- 
-<div class="task-grid"> -->
-
-
-<div class="task-card">
-    <div class="task-info">
-      <h3>
-        {{ name }}
-      </h3>
-      <p class="description">{{ email }}</p>
-
-      <img
-      [src]="'http://localhost:3000/uploads/' + photo"
-      alt="{{ name }}"
-      class="movie-img"
+<div class="profile-page">
+  <section class="profile-panel">
+    <div class="profile-summary">
+      @if (profilePhotoUrl; as photoUrl) {
+        <img
+          [src]="photoUrl"
+          [alt]="name() || 'Profile'"
+          class="profile-img"
+          (error)="onProfilePhotoError()"
         />
+      } @else {
+        <span class="profile-img profile-placeholder">
+          <mat-icon aria-hidden="true">person</mat-icon>
+        </span>
+      }
 
-      <div class="btn-group">
-        <button mat-flat-button  (click)="logout()">Logout</button>
+      <div>
+        <p class="eyebrow">Profile</p>
+        <h2>{{ name() }}</h2>
+        <p class="description">{{ email() }}</p>
       </div>
     </div>
-  </div>
+
+    <div class="profile-actions">
+      <button mat-stroked-button (click)="startEdit()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-flat-button (click)="logout()">Logout</button>
+    </div>
+  </section>
+
+  @if (serverSuccess) {
+    <p class="server-message success">{{ serverSuccess }}</p>
+  }
+  @if (serverError) {
+    <p class="server-message error">{{ serverError }}</p>
+  }
+
+  @if (isEditing) {
+    <section class="edit-panel">
+      <h3>Edit profile</h3>
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+          @if (profileForm.get('name')?.invalid && profileForm.get('name')?.touched) {
+            <small>Enter at least 2 characters.</small>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
+            <small>Enter a valid email.</small>
+          }
+        </mat-form-field>
+
+        <label class="file-input">
+          <mat-icon>photo_camera</mat-icon>
+          <span>{{ selectedFileName || 'Choose profile photo' }}</span>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+        </label>
+
+        <div class="edit-actions">
+          <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+          <button mat-flat-button type="submit" [disabled]="profileForm.invalid || isSaving">
+            {{ isSaving ? 'Saving...' : 'Save changes' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  }
+
+  <section class="analytics-panel">
+    <div class="section-title">
+      <p class="eyebrow">Analytics</p>
+      <h3>{{ completionRate() }}% completion rate</h3>
+    </div>
+
+    <div class="analytics-grid">
+      @for (item of analytics(); track item.label) {
+        <article class="analytics-card">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <div>
+            <span>{{ item.value }}</span>
+            <p>{{ item.label }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+</div>

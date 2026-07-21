@@ -1,0 +1,66 @@
+<div class="kanban-page">
+  <section class="kanban-toolbar">
+    <div>
+      <p class="eyebrow">Kanban</p>
+      <h2>Task flow</h2>
+    </div>
+
+    <button mat-flat-button (click)="addTask()">
+      <mat-icon>add</mat-icon>
+      Add task
+    </button>
+  </section>
+
+  <section class="kanban-board">
+    @for (column of columns; track column.id) {
+      <div class="kanban-column">
+        <div class="column-head">
+          <div>
+            <mat-icon>{{ column.icon }}</mat-icon>
+            <h3>{{ column.title }}</h3>
+          </div>
+          <span>{{ column.tasks.length }}</span>
+        </div>
+
+        <div
+          class="kanban-list"
+          cdkDropList
+          [id]="column.id"
+          [cdkDropListData]="column.tasks"
+          [cdkDropListConnectedTo]="columnIds"
+          (cdkDropListDropped)="dropTask($event, column.id)"
+        >
+          @for (task of column.tasks; track task._id) {
+            <article class="kanban-card" cdkDrag [cdkDragData]="task">
+              <div class="card-head">
+                <mat-checkbox
+                  [checked]="task.completed"
+                  (change)="checkTask($event.checked, task)"
+                ></mat-checkbox>
+                <h4>{{ task.title }}</h4>
+              </div>
+
+              @if (task.description) {
+                <p>{{ task.description }}</p>
+              }
+
+              <div class="task-meta">
+                @if (task.priority) {
+                  <mat-chip [class]="'priority-' + task.priority">{{ task.priority }}</mat-chip>
+                }
+                @if (task.category) {
+                  <mat-chip>{{ task.category }}</mat-chip>
+                }
+                @if (task.dueDate) {
+                  <mat-chip>{{ toDateKey(task.dueDate) }}</mat-chip>
+                }
+              </div>
+            </article>
+          } @empty {
+            <div class="column-empty">Drop tasks here</div>
+          }
+        </div>
+      </div>
+    }
+  </section>
+</div>

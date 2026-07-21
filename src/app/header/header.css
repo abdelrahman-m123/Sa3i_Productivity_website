@@ -1,15 +1,38 @@
 /* Site Header */
 .site-header {
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 1.5rem;
-  padding-bottom: 0%;
-  padding-top:0%;
-  font-family: 'Instrument Sans', sans-serif;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none;
+  border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 50;
+  font-family: 'Instrument Sans', sans-serif;
+}
 
+/* Dark mode header */
+:host-context(.dark) .site-header {
+  background: rgba(17, 24, 39, 0.8);
+  border-bottom-color: #1f2937;
+}
+
+/* Header Container */
+.container {
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
 }
 
 /* Header row layout */
@@ -17,61 +40,165 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
-  margin-left: 5rem;
-  height: 50px;
+  height: 4rem;
 }
 
 /* Brand */
-.brand a {
-  font-size: 1.5rem;
-  font-weight: 600;
+.brand-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-decoration: none;
+  cursor: default;
+}
+
+:host-context(.dark) .brand-name {
+  color: #ffffff;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #4b5563;
   text-decoration: none;
   transition: color 0.2s ease;
 }
-nav{
-  margin-left: 50%;
-  margin-right: 2rem;
-}
-nav a{
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-  font-size:1rem;
+
+nav a:hover {
+  color: #3b82f6;
 }
 
+:host-context(.dark) nav a {
+  color: #d1d5db;
+}
+
+:host-context(.dark) nav a:hover {
+  color: #3b82f6;
+}
+
+nav a.active {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+/* Profile section */
 .profile {
   display: flex;
-  right: 0;
   align-items: center;
-  margin-left: 0rem;
-  max-height: fit-content;
+  gap: 0.75rem;
 }
 
 .profile a {
-  max-height: 49px;
+  display: flex;
+  align-items: center;
 }
 
-button{
-  margin-right: 0rem;
-  margin-top: 3px;
-  margin-bottom: 3px;
-}
+/* Profile photo */
 .profile-photo {
-  width: 40px;
-  height: 40px;
-  margin-right: 1rem;
-  margin-top: 3.4px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
+  border: 2px solid #e5e7eb;
   cursor: pointer;
-  border: 2px solid #eee;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  object-fit: cover;
+}
 
+.profile-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.profile-placeholder mat-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
 }
 
 .profile-photo:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  border-color: #3b82f6;
 }
 
+:host-context(.dark) .profile-photo {
+  border-color: #374151;
+}
 
+:host-context(.dark) .profile-placeholder {
+  background: #1f2937;
+  color: #d1d5db;
+}
 
+:host-context(.dark) .profile-photo:hover {
+  border-color: #3b82f6;
+}
+
+/* Buttons */
+button[mat-flat-button],
+button[mat-button] {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+  text-transform: none;
+}
+
+button[mat-flat-button] {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+button[mat-flat-button]:hover {
+  background-color: #2563eb !important;
+}
+
+button[mat-button] {
+  color: #374151 !important;
+  background-color: transparent !important;
+}
+
+:host-context(.dark) button[mat-button] {
+  color: #d1d5db !important;
+}
+
+button[mat-button]:hover {
+  color: #3b82f6 !important;
+}
+
+:host-context(.dark) button[mat-button]:hover {
+  color: #3b82f6 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+  
+  .brand-name {
+    font-size: 1.125rem;
+  }
+  
+  .profile {
+    gap: 0.5rem;
+  }
+  
+  button[mat-flat-button],
+  button[mat-button] {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

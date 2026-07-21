@@ -1,0 +1,85 @@
+<div class="dashboard-page">
+  <section class="dashboard-header">
+    <div>
+      <p class="eyebrow">Dashboard</p>
+      <h2>Today&apos;s plan</h2>
+    </div>
+
+    <div class="effort-control" aria-label="Effort level">
+      @for (level of effortLevels; track level.value) {
+        <button
+          mat-stroked-button
+          [class.active]="effortLevel === level.value"
+          (click)="setEffortLevel(level.value)"
+        >
+          <mat-icon>{{ level.icon }}</mat-icon>
+          {{ level.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="stats-row">
+    <div class="stat">
+      <span>{{ todayCount }}</span>
+      <p>Due today</p>
+    </div>
+    <div class="stat">
+      <span>{{ overdueCount }}</span>
+      <p>Overdue</p>
+    </div>
+    <div class="stat">
+      <span>{{ highPriorityCount }}</span>
+      <p>High priority in plan</p>
+    </div>
+  </section>
+
+  <section class="today-panel">
+    <div class="panel-title">
+      <h3>{{ selectedTasks.length }} tasks selected</h3>
+      <p>
+        @if (effortLevel === 'minimum') {
+          Critical work only.
+        } @else if (effortLevel === 'maximum') {
+          Today plus the next 3 days.
+        } @else {
+          Due today and overdue.
+        }
+      </p>
+    </div>
+
+    <div class="task-stack">
+      @for (task of selectedTasks; track task._id) {
+        <article class="dashboard-task">
+          <mat-checkbox
+            [checked]="task.completed"
+            (change)="checkTask($event.checked, task)"
+          ></mat-checkbox>
+
+          <div class="task-body">
+            <h3>{{ task.title }}</h3>
+            @if (task.description) {
+              <p>{{ task.description }}</p>
+            }
+            <div class="task-meta">
+              @if (task.priority) {
+                <mat-chip [class]="'priority-' + task.priority">{{ task.priority }}</mat-chip>
+              }
+              @if (task.category) {
+                <mat-chip>{{ task.category }}</mat-chip>
+              }
+              @if (task.dueDate) {
+                <mat-chip>{{ toDateKey(task.dueDate) }}</mat-chip>
+              }
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon>task_alt</mat-icon>
+          <h3>No tasks for this effort level</h3>
+        </div>
+      }
+    </div>
+  </section>
+</div>
