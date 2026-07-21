@@ -6,7 +6,7 @@ The frontend is built with Angular, Angular Material, Angular CDK Drag Drop, rea
 
 ## Demo
 
-![Sa3i frontend demo](<../screenshots/ScreenRecording2026-07-21135431-ezgif.com-video-to-gif-converter (1).gif>)
+![Sa3i frontend demo](<./demo.gif>)
 
 ## Feature Breakdown
 
