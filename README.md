@@ -3,6 +3,7 @@
 Angular frontend for Sa3i, a full-stack productivity app focused on daily planning, task organization, calendar scheduling, Kanban workflow management, and profile analytics.
 
 The frontend is built with Angular, Angular Material, Angular CDK Drag Drop, reactive forms, standalone components, and service-based API integration.
+backend repo: https://github.com/abdelrahman-m123/Sa3i_productivity_backend
 
 ## Demo
 
