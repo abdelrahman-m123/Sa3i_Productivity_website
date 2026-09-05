@@ -4,6 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { Task } from '../models/task';
+import { injectApiBaseUrl } from './api-config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { Task } from '../models/task';
 export class TaskService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
-  private URL = 'http://localhost:3000/tasks';
+  private URL = `${injectApiBaseUrl()}/tasks`;
 
   getTasks(): Observable<any[]> {
     const token = this.getToken();

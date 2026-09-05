@@ -3,6 +3,7 @@ import { inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { catchError, map, BehaviorSubject, throwError } from "rxjs";
 import { jwtDecode } from "jwt-decode";
+import { injectApiBaseUrl } from "./api-config";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 export class AuthService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
-  private URL = "http://localhost:3000";
+  private URL = injectApiBaseUrl();
   private loggedIn = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.loggedIn.asObservable(); // observable for components
 

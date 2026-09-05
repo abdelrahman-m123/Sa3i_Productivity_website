@@ -11,6 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/authusers';
 import { TaskService } from '../services/usertasks';
 import { Task } from '../models/task';
+import { getUploadUrl, injectApiBaseUrl } from '../services/api-config';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,7 @@ import { Task } from '../models/task';
   styleUrl: './profile.css',
 })
 export class Profile {
-  private uploadsUrl = 'http://localhost:3000/uploads/';
+  private apiBaseUrl = injectApiBaseUrl();
   private authService = inject(AuthService);
   private taskService = inject(TaskService);
   private router = inject(Router);
@@ -177,17 +178,7 @@ export class Profile {
   }
 
   private getPhotoUrl(photo: string): string {
-    const trimmedPhoto = photo.trim();
-
-    if (/^(https?:|data:|blob:)/i.test(trimmedPhoto)) {
-      return trimmedPhoto;
-    }
-
-    if (trimmedPhoto.startsWith('/uploads/')) {
-      return `http://localhost:3000${trimmedPhoto}`;
-    }
-
-    return `${this.uploadsUrl}${trimmedPhoto}`;
+    return getUploadUrl(photo, this.apiBaseUrl);
   }
 
   private toDateKey(value?: string | Date): string {

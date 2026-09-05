@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../services/authusers';
+import { getUploadUrl, injectApiBaseUrl } from '../services/api-config';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +16,7 @@ import { AuthService } from '../services/authusers';
 })
 export class Sidebar {
   private authService = inject(AuthService);
-  private uploadsUrl = 'http://localhost:3000/uploads/';
+  private apiBaseUrl = injectApiBaseUrl();
 
   user = toSignal(this.authService.user);
   failedPhoto = signal<string | null>(null);
@@ -42,16 +43,6 @@ export class Sidebar {
   }
 
   private getPhotoUrl(photo: string): string {
-    const trimmedPhoto = photo.trim();
-
-    if (/^(https?:|data:|blob:)/i.test(trimmedPhoto)) {
-      return trimmedPhoto;
-    }
-
-    if (trimmedPhoto.startsWith('/uploads/')) {
-      return `http://localhost:3000${trimmedPhoto}`;
-    }
-
-    return `${this.uploadsUrl}${trimmedPhoto}`;
+    return getUploadUrl(photo, this.apiBaseUrl);
   }
 }

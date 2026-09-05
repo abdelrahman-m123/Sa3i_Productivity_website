@@ -1,0 +1,38 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sa3i-productivity-api",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-05",
+  "containers": [
+    {
+      "class_name": "Backend",
+      "image": "./Dockerfile",
+      "max_instances": 1
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "BACKEND",
+        "class_name": "Backend"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Backend"]
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "secrets": {
+    "required": [
+      "MONGO_URI",
+      "db_Name",
+      "JWT_SECRET",
+      "GEMINI_API_KEY"
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../services/authusers';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { getUploadUrl, injectApiBaseUrl } from '../services/api-config';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class Header {
   private authService = inject(AuthService);
-  private uploadsUrl = 'http://localhost:3000/uploads/';
+  private apiBaseUrl = injectApiBaseUrl();
   
   user = toSignal(this.authService.user);
   
@@ -47,16 +48,6 @@ export class Header {
   }
 
   private getPhotoUrl(photo: string): string {
-    const trimmedPhoto = photo.trim();
-
-    if (/^(https?:|data:|blob:)/i.test(trimmedPhoto)) {
-      return trimmedPhoto;
-    }
-
-    if (trimmedPhoto.startsWith('/uploads/')) {
-      return `http://localhost:3000${trimmedPhoto}`;
-    }
-
-    return `${this.uploadsUrl}${trimmedPhoto}`;
+    return getUploadUrl(photo, this.apiBaseUrl);
   }
 }

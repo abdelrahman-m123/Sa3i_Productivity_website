@@ -4,12 +4,13 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { GoalPlanPreview, GoalPlanRequest } from '../models/goal-plan';
 import { Task } from '../models/task';
+import { injectApiBaseUrl } from './api-config';
 
 @Injectable({ providedIn: 'root' })
 export class GoalPlanningService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
-  private readonly url = 'http://localhost:3000/ai-plans';
+  private readonly url = `${injectApiBaseUrl()}/ai-plans`;
 
   previewGoal(request: GoalPlanRequest): Observable<GoalPlanPreview> {
     return this.http

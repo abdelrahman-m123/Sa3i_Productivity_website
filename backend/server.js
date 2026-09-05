@@ -14,13 +14,16 @@ connectDB();
 
 app.use(express.json());
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", service: "sa3i-api" });
+});
 
 app.use("/users", userRoutes);
 app.use("/tasks", taskRoutes);
 app.use("/ai-plans", plannerRoutes);
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

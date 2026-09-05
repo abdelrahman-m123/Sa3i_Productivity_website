@@ -1,0 +1,81 @@
+name: Deploy frontend to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  build:
+    name: Build Angular frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Configure API origin
+        run: |
+          API_BASE_URL="${{ secrets.SA3I_API_BASE_URL }}"
+
+          if [ -z "$API_BASE_URL" ] && [ "$GITHUB_EVENT_NAME" != "pull_request" ]; then
+            echo "Missing required GitHub Actions secret: SA3I_API_BASE_URL"
+            exit 1
+          fi
+
+          if [ -z "$API_BASE_URL" ]; then
+            API_BASE_URL="http://localhost:3000"
+          fi
+
+          printf "window.__SA3I_CONFIG__ = {\n  apiBaseUrl: '%s',\n};\n" "$API_BASE_URL" > public/config.js
+        working-directory: frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: frontend
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: frontend-dist
+          path: frontend/dist/sa3i_productivity_frontend/browser
+
+  deploy:
+    name: Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: frontend-dist
+          path: dist
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=sa3i-productivity --branch=${{ github.ref_name }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
