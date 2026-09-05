@@ -1,0 +1,87 @@
+/* Card container */
+.card {
+  max-width: 600px;
+  margin: 60px auto;
+  margin-bottom: 200px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Instrument Sans', sans-serif;
+}
+form {
+  min-width: 300px;
+}
+/* Title */
+.card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  margin-top: 0;
+}
+
+/* Form fields */
+.field {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.field label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Inputs */
+.field input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Input focus */
+.field input:focus {
+  border-color: #005cbb;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Error messages */
+.error, 
+.server-error {
+  font-size: 0.9rem;
+  color: #d9534f;
+  margin-top: 0.3rem;
+}
+
+/* Submit button */
+button {
+  width: 100%;
+  padding: 0.75rem;
+}
+
+.demo-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.demo-panel p {
+  margin: 0 0 0.75rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Button hover */
+
+
+/* Disabled button */
+button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}

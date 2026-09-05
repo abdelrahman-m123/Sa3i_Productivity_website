@@ -1,0 +1,210 @@
+<div class="planner-page">
+  <header class="planner-header">
+    <div>
+      <p class="eyebrow">AI planner</p>
+      <h2>Turn a goal into calendar time</h2>
+    </div>
+    <div class="privacy-note">
+      <mat-icon>lock</mat-icon>
+      Review before saving
+    </div>
+  </header>
+
+  <section class="planner-input">
+    <form [formGroup]="plannerForm" (ngSubmit)="generatePlan()">
+      <mat-form-field appearance="outline" class="goal-field">
+        <mat-label>What do you want to accomplish?</mat-label>
+        <textarea
+          matInput
+          formControlName="goal"
+          rows="4"
+          maxlength="500"
+          placeholder="Prepare for my system design interview next week"
+        ></textarea>
+        <mat-hint align="end">{{ plannerForm.controls.goal.value.length }}/500</mat-hint>
+        @if (plannerForm.controls.goal.touched && plannerForm.controls.goal.invalid) {
+          <mat-error>Enter a goal of at least 5 characters.</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="preference-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Target date (optional)</mat-label>
+          <input matInput type="date" formControlName="targetDate" [min]="minDate" />
+          <mat-hint>Gemini can infer it from your goal</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Available from</mat-label>
+          <input matInput type="time" formControlName="workingStart" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Available until</mat-label>
+          <input matInput type="time" formControlName="workingEnd" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <mat-checkbox formControlName="includeWeekends">Include weekends</mat-checkbox>
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+          @if (loading) {
+            <span class="button-content">
+              <mat-spinner diameter="20"></mat-spinner>
+              Building plan…
+            </span>
+          } @else {
+            <span class="button-content">
+              <mat-icon>auto_awesome</mat-icon>
+              Build my plan
+            </span>
+          }
+        </button>
+      </div>
+    </form>
+  </section>
+
+  @if (errorMessage) {
+    <div class="message error-message" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (successMessage) {
+    <div class="message success-message" role="status">
+      <mat-icon>event_available</mat-icon>
+      <span>{{ successMessage }}</span>
+      <button mat-stroked-button type="button" (click)="viewCalendar()">View calendar</button>
+    </div>
+  }
+
+  @if (plan && !successMessage) {
+    <div class="preview-overlay" role="dialog" aria-modal="true" aria-labelledby="plan-preview-title">
+      <section class="plan-preview">
+        <div class="preview-heading">
+          <div>
+            <p class="eyebrow">Proposed plan</p>
+            <h2 id="plan-preview-title">{{ plan.title }}</h2>
+            <p>Deadline: {{ plan.deadline }} · {{ plan.timeZone }}</p>
+          </div>
+
+          <div class="plan-stats">
+            <div><strong>{{ selectedCount }}</strong><span>steps</span></div>
+            <div><strong>{{ plan.totalEstimatedMinutes }}</strong><span>minutes</span></div>
+            <div><strong>{{ scheduledCount }}</strong><span>scheduled</span></div>
+          </div>
+
+          <button
+            mat-icon-button
+            type="button"
+            class="preview-close"
+            aria-label="Cancel plan preview"
+            (click)="cancelPlan()"
+            [disabled]="saving"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="preview-body">
+          @if (plan.assumptions.length) {
+            <div class="assumptions">
+              <mat-icon>info</mat-icon>
+              <div>
+                <strong>Planning assumptions</strong>
+                <ul>
+                  @for (assumption of plan.assumptions; track assumption) {
+                    <li>{{ assumption }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          }
+
+          <div class="task-list">
+            @for (item of plan.items; track item.clientId; let index = $index) {
+              <article class="plan-task" [class.excluded]="item.included === false">
+                <mat-checkbox
+                  [checked]="item.included !== false"
+                  (change)="updateIncluded(item, $event.checked)"
+                  [attr.aria-label]="'Include ' + item.title"
+                ></mat-checkbox>
+
+                <div class="step-number">{{ index + 1 }}</div>
+
+                <div class="task-content">
+                  <input
+                    class="task-title"
+                    [value]="item.title"
+                    maxlength="120"
+                    (input)="updateTitle(item, $event)"
+                    aria-label="Task title"
+                  />
+                  <p>{{ item.description }}</p>
+
+                  <div class="task-details">
+                    <label>
+                      <input
+                        type="number"
+                        min="15"
+                        max="480"
+                        step="15"
+                        [value]="item.estimatedMinutes"
+                        (change)="updateEstimate(item, $event)"
+                        aria-label="Estimated minutes"
+                      />
+                      min
+                    </label>
+                    <mat-chip [class]="'priority-' + item.priority">{{ item.priority }}</mat-chip>
+                    <mat-chip>{{ item.category }}</mat-chip>
+                  </div>
+
+                  <div class="slot" [class.unscheduled-slot]="!item.scheduledStart">
+                    <mat-icon>{{ item.scheduledStart ? 'schedule' : 'warning' }}</mat-icon>
+                    @if (item.scheduledStart) {
+                      {{ formatSlot(item.scheduledStart) }}–{{ formatTime(item.scheduledEnd) }}
+                    } @else {
+                      {{ item.unscheduledReason }}
+                    }
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+
+        <footer class="preview-actions">
+          <p>Edited estimates and new conflicts are recalculated when you save.</p>
+          <div>
+            <button mat-stroked-button type="button" (click)="cancelPlan()" [disabled]="saving">
+              Cancel
+            </button>
+            <button mat-stroked-button type="button" (click)="generatePlan()" [disabled]="loading">
+              Regenerate
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="confirmPlan()"
+              [disabled]="saving || selectedCount === 0"
+            >
+              @if (saving) {
+                <span class="button-content">
+                  <mat-spinner diameter="20"></mat-spinner>
+                  Saving…
+                </span>
+              } @else {
+                <span class="button-content">
+                  <mat-icon>calendar_add_on</mat-icon>
+                  Add {{ selectedCount }} tasks to calendar
+                </span>
+              }
+            </button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  }
+</div>

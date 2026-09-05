@@ -1,0 +1,80 @@
+<div class="task-container">
+  <div class="page-wrapper">
+    
+    <!-- Add Task Section -->
+    <div class="title-wrap">
+      <div class="title">
+        <div>
+          <p class="eyebrow">Tasks</p>
+          <h2>Tasklist</h2>
+        </div>
+        <div class="title-actions">
+          <mat-form-field appearance="outline" class="sort-select" subscriptSizing="dynamic">
+            <mat-label>Sort by</mat-label>
+            <mat-select [value]="sortMode" (selectionChange)="setSortMode($event.value)">
+              <mat-option value="dateAsc">Date asc</mat-option>
+              <mat-option value="dateDesc">Date desc</mat-option>
+              <mat-option value="priorityAsc">Priority asc</mat-option>
+              <mat-option value="priorityDesc">Priority desc</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button class="add-btn" (click)="toggleAddTask()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Grid -->
+    <div class="task-grid">
+      @for (task of sortedTasks; track task._id) {
+        <div class="task-card" [class.completed]="task.completed">
+          
+          <!-- Task Info -->
+          <div class="task-info">
+            <h3>
+              <mat-checkbox
+                [checked]="task.completed"
+                (change)="checkTask($event, task)"
+              ></mat-checkbox>
+              {{ task.title }}
+            </h3>
+            @if (task.description) {
+              <p class="task-description">{{ task.description }}</p>
+            }
+            
+            <div class="chips">
+              @if (task.priority) {
+                <mat-chip [class]="'priority-' + task.priority">
+                  {{ task.priority }}
+                </mat-chip>
+              }
+              @if (task.category) {
+                <mat-chip class="category">
+                  {{ task.category }}
+                </mat-chip>
+              }
+              @if (task.dueDate) {
+                <mat-chip class="date-tag">
+                  {{ toDateKey(task.dueDate) }}
+                </mat-chip>
+              }
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btn-group">
+            <button mat-icon-button class="update-btn" (click)="updateTask(task)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-btn" (click)="deleteTask(task)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          
+        </div>
+      }
+    </div>
+    
+  </div>
+</div>

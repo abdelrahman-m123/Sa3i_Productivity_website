@@ -1,0 +1,41 @@
+/* Makes the entire page take full height */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f4f6f8;
+}
+
+/* ===== LAYOUT BODY (sidebar + content) ===== */
+.layout-body {
+  display: flex;
+  justify-self: stretch;
+  flex: 1;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+/* ===== MAIN CONTENT WRAPPER ===== */
+.content-wrap {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Full width for auth pages */
+.content-wrap.full-width {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Footer stays at the bottom */
+app-footer {
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}

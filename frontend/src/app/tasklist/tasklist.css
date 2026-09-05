@@ -1,0 +1,234 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.task-container,
+.page-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Page Title */
+.header-row {
+  display: flex;
+  align-items: center; /* vertically center */
+  justify-content: space-between; /* pushes button to the right */
+  margin-bottom: 0.75rem;
+}
+.title {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; /* space between h2 and button */
+  margin-bottom: 1rem;
+  color: #1f2937;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Instrument Sans', sans-serif;
+  width: 100%;
+  min-width: 0;
+}
+.title button {
+  font-size: 0.85rem;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+}
+
+.title-actions {
+  gap: 0.65rem;
+}
+
+.sort-select {
+  width: 140px;
+  font-size: 0.82rem;
+}
+
+::ng-deep .sort-select .mat-mdc-text-field-wrapper {
+  height: 38px;
+}
+
+::ng-deep .sort-select .mat-mdc-form-field-flex {
+  height: 38px;
+  align-items: center;
+}
+
+::ng-deep .sort-select .mat-mdc-form-field-infix {
+  min-height: 38px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+::ng-deep .sort-select .mat-mdc-select-trigger {
+  height: 22px;
+}
+
+.title-button {
+  padding-left: 5rem;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.eyebrow {
+  margin: 0 0 0.2rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.title h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 650;
+}
+.title-wrap {
+  justify-content: center;
+  width: 100%;
+}
+/* Grid layout for tasks */
+.task-grid {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 12px; /* space between items */
+  padding: 0;
+  
+}
+
+/* Task card */
+.task-card {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 10px;
+  padding-left:12px;
+  flex-direction: row;
+  display:flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  font-family: 'Instrument Sans', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.task-card:hover {
+  transform: translateY(-3px);
+}
+
+.task-card:hover .btn-group {
+  opacity: 1;
+}
+
+.task-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Task info */
+.task-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+mat-checkbox {
+  margin-left: -10px;
+}
+
+.task-info .status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+.task-info p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.task-description {
+  overflow-wrap: anywhere;
+}
+
+/* Priority colors */
+.task-info span {
+  font-weight: bold;
+}
+
+.task-info span.status {
+  font-weight: bold;
+  color: #005cbb;
+}
+
+.task-info span.completed {
+  color: #28a745;
+}
+
+.task-info span.pending {
+  color: #d9534f;
+}
+
+/* Buttons */
+.update-btn {
+
+}
+.delete-btn {
+  
+}
+/* Group action buttons */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-group button {
+}
+
+mat-chip {
+  max-height: 24px;
+  max-width: 100%;
+}
+
+::ng-deep .task-card .mat-mdc-chip-action-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  background-color: #fdfeff;
+  color: #334155;
+}
+
+.priority-high {
+  background: #fee2e2 !important;
+}
+
+.priority-medium {
+  background: #fef3c7 !important;
+}
+
+.priority-low {
+  background: #dcfce7 !important;
+}
+
+.date-tag {
+  background: #eef3ff !important;
+}

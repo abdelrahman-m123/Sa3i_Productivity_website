@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Add Task</h2>
+
+<mat-dialog-content>
+  <form aria-label="Task form" [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" class="container" (keydown.enter)="onSubmit()">
+    <!-- Title -->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" />
+      @if (addTaskForm.get('title')?.invalid && addTaskForm.get('title')?.touched) {
+      <small>Add task title (min 3 characters)</small>
+      }
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Due date</mat-label>
+      <input matInput type="date" formControlName="dueDate" />
+    </mat-form-field>
+
+    <div class="schedule-fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Scheduled start (optional)</mat-label>
+        <input matInput type="datetime-local" formControlName="scheduledStart" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Scheduled end (optional)</mat-label>
+        <input matInput type="datetime-local" formControlName="scheduledEnd" />
+      </mat-form-field>
+    </div>
+
+    <!-- Priority -->
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option value="low">Low</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="high">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <input matInput formControlName="category" />
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close>Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    [disabled]="addTaskForm.invalid"
+    (click)="onSubmit()"
+  >
+    Save
+  </button>
+
+</mat-dialog-actions>

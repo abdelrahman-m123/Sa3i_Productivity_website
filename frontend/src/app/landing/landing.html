@@ -1,0 +1,174 @@
+<div class="landing-page">
+  <header class="landing-nav">
+    <a class="landing-brand" routerLink="/" aria-label="Sa3i Productivity home">
+      <img src="/sa3i-logo.png" alt="Sa3i" />
+    </a>
+
+    <nav aria-label="Main navigation">
+      <a href="#product">Product</a>
+      <a href="#features">Features</a>
+      <a href="#engineering">Behind the build</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="text-link" routerLink="/login">Sign in</a>
+      <button class="button button-small button-primary" type="button" (click)="enterDemo()" [disabled]="loading">
+        {{ loading ? 'Opening demo...' : 'Explore demo' }}
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="product" aria-labelledby="hero-title">
+
+      <div class="hero-copy">
+        <h1 id="hero-title">Turn ambitious goals into a <span>realistic day.</span></h1>
+        <p class="hero-lead">
+          Break goals into tasks, find calendar time, and track progress in one workspace.
+        </p>
+
+        <div class="hero-actions">
+          <button class="button button-primary" type="button" (click)="enterDemo()" [disabled]="loading">
+            {{ loading ? 'Preparing your workspace...' : 'Try live demo' }}
+            <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+          </button>
+          <a class="button button-secondary" [href]="repositoryUrl" target="_blank" rel="noopener noreferrer">
+            View GitHub
+            <mat-icon aria-hidden="true">open_in_new</mat-icon>
+          </a>
+        </div>
+
+        @if (errorMessage) {
+          <p class="demo-error" role="alert">{{ errorMessage }}</p>
+        }
+
+
+      </div>
+      <figure class="product-stage">
+        <div class="stage-bar">
+          <span><i></i> Inside Sa3i</span>
+          <span>Product walkthrough</span>
+        </div>
+        <video
+          #productTourVideo
+          src="/sa3i-product-tour.mp4"
+          aria-label="Recorded walkthrough of Sa3i's task list, calendar, and Kanban board"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+        <figcaption>One task. Every view. Your whole day connected.</figcaption>
+      </figure>
+    </section>
+
+    <section class="features-section" id="features">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Feature breakdown</p>
+        <h2>Five focused views. One source of truth.</h2>
+        <p>Each view answers a different planning question without making you rebuild your work.</p>
+      </div>
+
+      <div class="feature-grid">
+        @for (feature of features; track feature.number) {
+          <article class="feature-card" [class.featured]="feature.featured" data-reveal>
+            <div class="feature-topline">
+              <span class="feature-icon"><mat-icon>{{ feature.icon }}</mat-icon></span>
+              <span class="feature-number">{{ feature.number }}</span>
+            </div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+            @if (feature.featured) {
+              <span class="feature-note"><mat-icon>verified</mat-icon> You approve every task before it is saved</span>
+            }
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="workflow-section" id="workflow" aria-labelledby="example-title">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">A goal becomes a plan</p>
+        <h2 id="example-title">Make room for your next big idea.</h2>
+        <p>An illustrative planning example. Review the proposed work before adding it to your calendar.</p>
+      </div>
+      <div class="example-grid" data-reveal>
+        <article class="goal-example">
+          <span class="step-label">01 / Your goal</span>
+          <mat-icon aria-hidden="true">auto_awesome</mat-icon>
+          <h3>“Prepare my portfolio for applications this week.”</h3>
+          <p>Available after 6 pm. Keep the weekend free.</p>
+          <div class="example-note">You set the goal and working hours.</div>
+        </article>
+        <article class="plan-example">
+          <span class="step-label">02 / Proposed tasks</span>
+          <h3>Three manageable steps</h3>
+          <ul>
+            <li><span>Choose projects to highlight</span><strong>30 min</strong></li>
+            <li><span>Write a project case study</span><strong>90 min</strong></li>
+            <li><span>Polish the demo and README</span><strong>60 min</strong></li>
+          </ul>
+          <div class="example-note">3 steps · 3 hours total · Review before saving</div>
+        </article>
+        <article class="calendar-example">
+          <span class="step-label">03 / Calendar preview</span>
+          <h3>A place in your week</h3>
+          <div class="calendar-slot"><small>MON · 18:00–18:30</small><strong>Choose projects</strong></div>
+          <div class="calendar-slot"><small>TUE · 18:00–19:30</small><strong>Write case study</strong></div>
+          <div class="calendar-slot"><small>WED · 18:00–19:00</small><strong>Polish the demo</strong></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="engineering-section" id="engineering" aria-labelledby="engineering-title">
+      <div class="engineering-heading" data-reveal>
+        <div>
+          <p class="eyebrow">Behind the build</p>
+          <h2 id="engineering-title">Explore the engineering.</h2>
+          <p>A full-stack project connecting an interactive workspace, AI task generation, and a dedicated scheduling service.</p>
+        </div>
+        <a class="button button-light" [href]="repositoryUrl + '#engineering-notes'" target="_blank" rel="noopener noreferrer">Read technical notes <mat-icon aria-hidden="true">north_east</mat-icon></a>
+      </div>
+      <ul class="stack-list" aria-label="Technology stack">
+        <li>Angular 20</li><li>TypeScript</li><li>RxJS</li><li>Node.js / Express</li><li>MongoDB</li><li>Gemini API</li>
+      </ul>
+      <div class="architecture" aria-label="Architecture: Angular workspace communicates with the Express API, which uses MongoDB for storage and Gemini for task proposals. Scheduling runs on the backend.">
+        <div><mat-icon aria-hidden="true">web</mat-icon><strong>Angular workspace</strong><small>Tasks, calendar, and board</small></div>
+        <span aria-hidden="true">↔</span>
+        <div><mat-icon aria-hidden="true">dns</mat-icon><strong>Express API</strong><small>Authentication + scheduling</small></div>
+        <span aria-hidden="true">↔</span>
+        <div><mat-icon aria-hidden="true">storage</mat-icon><strong>MongoDB + Gemini</strong><small>Persistence / task proposals</small></div>
+      </div>
+      <div class="engineering-grid">
+        <article><span class="step-label">01 / Structured generation</span><h3>AI proposes the work</h3><p>Gemini returns structured task proposals. The backend validates titles, estimates, priorities, and categories before scheduling.</p></article>
+        <article><span class="step-label">02 / Scheduling logic</span><h3>The server finds the time</h3><p>A separate scheduler considers working hours and existing bookings. Availability is checked again when a plan is confirmed.</p></article>
+        <article><span class="step-label">03 / Authenticated access</span><h3>Tasks belong to a user</h3><p>JWT authentication identifies the user. Standard task reads, edits, and deletes query both the task and its owner.</p></article>
+      </div>
+    </section>
+
+    <section class="closing-cta">
+      <div data-reveal>
+        <p class="eyebrow">Start with a real workspace</p>
+        <h2>See what your next productive day could look like.</h2>
+        <p>No signup and no blank state. The demo opens with tasks ready to plan, schedule, and move.</p>
+        <button class="button button-light" type="button" (click)="enterDemo()" [disabled]="loading">
+          {{ loading ? 'Opening demo...' : 'Try live demo' }}
+          <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+        </button>
+        @if (errorMessage) {
+          <p class="demo-error demo-error-light" role="alert">{{ errorMessage }}</p>
+        }
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <a class="landing-brand footer-brand" routerLink="/">
+      <img src="/sa3i-logo.png" alt="Sa3i" />
+    </a>
+    <p>Thoughtful planning for work that keeps moving.</p>
+    <span>© {{ year }} Sa3i Productivity</span>
+  </footer>
+</div>

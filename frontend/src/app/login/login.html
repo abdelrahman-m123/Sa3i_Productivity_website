@@ -1,0 +1,54 @@
+<section class="card">
+  <h2>Login</h2>
+
+  <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        name="email"
+        ngModel
+        required
+        email
+        #emailRef="ngModel"
+      />
+      @if (emailRef.invalid && emailRef.touched) {
+      <p class="error">Valid email is required</p>
+      }
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        ngModel
+        required
+        minlength="8"
+        #passwordRef="ngModel"
+      />
+      @if (passwordRef.invalid && passwordRef.touched) {
+      <p class="error">Password is required with minimum length 8</p>
+      }
+    </div>
+
+    <button mat-flat-button type="submit" [disabled]="loginForm.invalid || loading">
+      {{ loading ? 'Signing in...' : 'Login' }}
+    </button>
+    <div class="demo-panel">
+      <p>Want to look around first? Explore the app with preloaded sample data.</p>
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="loading"
+        (click)="enterDemo()"
+      >
+        {{ loading ? 'Starting demo...' : 'Explore demo' }}
+      </button>
+    </div>
+
+    @if (serverError) {
+    <p class="server-error">{{ serverError }}</p>
+    }
+  </form>
+</section>

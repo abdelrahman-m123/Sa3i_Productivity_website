@@ -1,0 +1,89 @@
+<nav class="sidebar" [class.collapsed]="collapsed">
+  <div class="sidebar-head">
+    <a class="sidebar-logo" routerLink="/dashboard" title="Sa3i Productivity">
+      <img class="brand-icon" src="/sa3i-logo-icon.png" alt="" />
+      <img class="brand-wordmark" src="/sa3i-logo-wordmark.png" alt="Sa3i" />
+    </a>
+
+    <button
+      type="button"
+      class="collapse-btn"
+      [attr.aria-label]="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+      [matTooltip]="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+      matTooltipPosition="right"
+      (click)="toggleCollapsed()"
+    >
+      <img
+        class="collapse-logo-icon"
+        src="/sa3i-logo-icon.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <mat-icon class="collapse-control-icon">
+        {{ collapsed ? 'chevron_right' : 'chevron_left' }}
+      </mat-icon>
+    </button>
+  </div>
+
+  <ul class="sidebar-links">
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active" [matTooltip]="collapsed ? 'Dashboard' : ''" matTooltipPosition="right">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/tasks" routerLinkActive="active" [matTooltip]="collapsed ? 'Tasklist' : ''" matTooltipPosition="right">
+        <mat-icon>checklist</mat-icon>
+        <span>Tasklist</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/calendar" routerLinkActive="active" [matTooltip]="collapsed ? 'Calendar' : ''" matTooltipPosition="right">
+        <mat-icon>calendar_month</mat-icon>
+        <span>Calendar</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/planner" routerLinkActive="active" [matTooltip]="collapsed ? 'AI Planner' : ''" matTooltipPosition="right">
+        <mat-icon>auto_awesome</mat-icon>
+        <span>AI Planner</span>
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/kanban" routerLinkActive="active" [matTooltip]="collapsed ? 'Kanban' : ''" matTooltipPosition="right">
+        <mat-icon>view_kanban</mat-icon>
+        <span>Kanban</span>
+      </a>
+    </li>
+
+  </ul>
+
+  <a class="sidebar-profile" routerLink="/profile">
+    @if (profilePhotoUrl(); as photoUrl) {
+      <img
+        [src]="photoUrl"
+        [alt]="name()"
+        class="profile-photo"
+        (error)="onProfilePhotoError()"
+      />
+    } @else {
+      <span class="profile-photo profile-placeholder">
+        <mat-icon aria-hidden="true">person</mat-icon>
+      </span>
+    }
+
+    <span class="profile-details">
+      <strong>{{ name() }}</strong>
+      @if (isDemo()) {
+        <small>Demo mode</small>
+      } @else {
+        <small>{{ email() }}</small>
+      }
+    </span>
+  </a>
+</nav>

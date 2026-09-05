@@ -1,0 +1,257 @@
+:host {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  z-index: 20;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  transition: width 0.2s ease, padding 0.2s ease;
+}
+
+.sidebar.collapsed {
+  width: 76px;
+  padding: 1rem 0.65rem;
+}
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sidebar.collapsed .sidebar-head {
+  justify-content: center;
+  gap: 0;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  width: 74px;
+  color: #1f2937;
+  text-decoration: none;
+  font-weight: 750;
+}
+
+.brand-icon,
+.brand-wordmark {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-icon {
+  width: 22px;
+  flex: 0 0 22px;
+}
+
+.brand-wordmark {
+  width: 45px;
+  min-width: 0;
+}
+
+.sidebar.collapsed .sidebar-logo {
+  display: none;
+}
+
+.collapse-btn {
+  flex: 0 0 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgb(51, 51, 51);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.collapse-btn:hover {
+  background: #eef3ff;
+}
+
+.collapse-logo-icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.sidebar.collapsed .collapse-logo-icon {
+  display: block;
+}
+
+.sidebar.collapsed .collapse-control-icon {
+  display: none;
+}
+
+.sidebar.collapsed .collapse-btn:hover .collapse-logo-icon,
+.sidebar.collapsed .collapse-btn:focus-visible .collapse-logo-icon {
+  display: none;
+}
+
+.sidebar.collapsed .collapse-btn:hover .collapse-control-icon,
+.sidebar.collapsed .collapse-btn:focus-visible .collapse-control-icon {
+  display: block;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.sidebar-links li a {
+  text-decoration: none;
+  color: rgb(51, 51, 51);
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: background 0.25s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-links li a {
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+}
+
+.sidebar-links li a span {
+  overflow: hidden;
+  transition: opacity 0.15s ease, width 0.2s ease;
+}
+
+.sidebar.collapsed .sidebar-links li a span {
+  display: none;
+}
+
+.sidebar-links li a:hover {
+  background: #eef3ff; /* Light blue hover */
+}
+
+.sidebar-links li a.active {
+  background: #abc7ff; /* Active state */
+  font-weight: 600;
+}
+
+.sidebar.collapsed .sidebar-links li {
+  display: flex;
+  justify-content: center;
+}
+
+mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.sidebar-profile:hover {
+  background: #eef3ff;
+}
+
+.sidebar.collapsed .sidebar-profile {
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  align-self: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  flex: 0 0 40px;
+  border: 2px solid #e5e7eb;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.profile-placeholder mat-icon {
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: opacity 0.15s ease, width 0.2s ease;
+}
+
+.profile-details strong,
+.profile-details small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-details strong {
+  font-size: 0.92rem;
+}
+
+.profile-details small {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.sidebar.collapsed .profile-details {
+  display: none;
+}
