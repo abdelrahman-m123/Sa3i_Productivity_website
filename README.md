@@ -6,11 +6,11 @@ The project is organized as a monorepo with an Angular frontend and a Node.js/Ex
 
 ## Product Demo
 
-[![Watch the Sa3i product tour](frontend/public/sa3i-logo.png)](frontend/public/sa3i-product-tour.mp4)
+![Sa3i product demo](./frontend/public/demo.gif)
 
-[Watch the MP4 product tour](frontend/public/sa3i-product-tour.mp4)
+[Watch the full MP4 product tour](./frontend/public/sa3i-product-tour.mp4)
 
-The landing page also uses this MP4 as an autoplaying, muted, looping product showcase while the hero section is visible.
+The landing page uses the MP4 as an autoplaying, muted, looping product showcase while the hero section is visible.
 
 ## Features
 
